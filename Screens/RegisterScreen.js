@@ -5,6 +5,80 @@ const windownWidth = Dimensions.get('window').width;
 const windownHeight = Dimensions.get('window').height;
 
 const RegisterScreen = ({navigation, route}) => {
+
+    const [Name, setName] = useState("");
+    const [isValidName, setIsValidName] = useState(false);
+    const [NameError, setNameError] = useState('');
+
+    const [SDT, setSDT] = useState("");
+    const [isValidSDT, setIsValidSDT] = useState(false);
+    const [SDTError, setSDTError] = useState('');
+
+    const [Email, setEmail] = useState("");
+    const [isValidEmail, setIsValidEmail] = useState(false);
+    const [EmailError, setEmailError] = useState('');
+
+    const [Pass, setPass] = useState("");
+    const [isValidPass, setIsValidPass] = useState(false);
+    const [PassError, setPassError] = useState('');
+
+    const verifyName = (value) => {
+        if (value.trim() === '' || value.trim() === null) {
+            setNameError("Không được để trống");
+            return false;
+        }
+        else if (value.trim().length < 25) {
+            setNameError("Tối thiểu 25 ký tự");
+            return false;
+        }
+        else {
+            setNameError("");
+            return true;
+        }
+    }
+
+    const verifySDT = (value) => {
+        if (value.trim() === '' || value.trim() === null) {
+            setSDTError("Không được để trống");
+            return false;
+        }
+        else if (value.trim().length < 8) {
+            setSDTError("Tối thiểu 13 ký tự");
+            return false;
+        }
+        else {
+            setSDTError("");
+            return true;
+        }
+    }
+
+    const verifyPass = (value) => {
+        if (value.trim() === '' || value.trim() === null) {
+            setPassError("Không được để trống");
+            return false;
+        }
+        else {
+            setPassError("");
+            return true;
+        }
+    }
+
+    const verifyEmail = (value) => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (value.trim() === '' || value.trim() === null) {
+            setEmailError("Không được để trống");
+            return false;
+        }
+        else if (!emailRegex.test(value)) {
+            setEmailError("Email không hợp lệ");
+            return false;
+        }
+        else {
+            setEmailError("");
+            return true;
+        }
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.brand}>
@@ -16,27 +90,59 @@ const RegisterScreen = ({navigation, route}) => {
 
                 <View>
                     <Text style={styles.labelInput}>Họ tên</Text>
-                    <TextInput style = {styles.textInput} placeholder='Nguyễn Văn A'></TextInput>
+                    <TextInput style = {styles.textInput} placeholder='Nguyễn Văn A'
+                    onChangeText={(value) => {
+                            setName(value);
+                            const isValid = verifyName(value);
+                            isValid ? setIsValidName(true) : setIsValidName(false);
+                        }}
+                        value={Name}></TextInput>
                 </View>
+                <Text>{isValidName ? '' : NameError}</Text>
 
                 <View>
                     <Text style={styles.labelInput}>SDT</Text>
-                    <TextInput style = {styles.textInput} placeholder='123456789'></TextInput>
+                    <TextInput style = {styles.textInput} placeholder='123456789'
+                    onChangeText={(value) => {
+                            setSDT(value);
+                            const isValid = verifySDT(value);
+                            isValid ? setIsValidSDT(true) : setIsValidSDT(false);
+                        }}
+                        value={SDT}></TextInput>
                 </View>
 
                 <View>
                     <Text style={styles.labelInput}>EMAIL ID</Text>
-                    <TextInput style = {styles.textInput} placeholder='user@gmail.com'></TextInput>
+                    <TextInput style = {styles.textInput} placeholder='user@gmail.com'
+                    onChangeText={(value) => {
+                            setEmail(value);
+                            const isValid = verifyEmail(value);
+                            isValid ? setIsValidEmail(true) : setIsValidEmail(false);
+                        }}
+                        value={Email}></TextInput>
                 </View>
+                <Text>{isValidEmail ? '' : EmailError}</Text>
 
                 <View  style = {styles.input}>
                     <Text style={styles.labelInput}>PASSWORD</Text>
-                    <TextInput style = {styles.textInput} placeholder='.......' secureTextEntry={true}></TextInput>
+                    <TextInput style = {styles.textInput} placeholder='.......' secureTextEntry={true}
+                    onChangeText={(value) => {
+                            setPass(value);
+                            const isValid = verifyPass(value);
+                            isValid ? setIsValidPass(true) : setIsValidPass(false);
+                        }}
+                        value={Pass}></TextInput>
                 </View>
 
                 <View  style = {styles.input}>
                     <Text style={styles.labelInput}>REPASSWORD</Text>
-                    <TextInput style = {styles.textInput} placeholder='.......' secureTextEntry={true}></TextInput>
+                    <TextInput style = {styles.textInput} placeholder='.......' secureTextEntry={true}
+                    onChangeText={(value) => {
+                            setPass(value);
+                            const isValid = verifyPass(value);
+                            isValid ? setIsValidPass(true) : setIsValidPass(false);
+                        }}
+                        value={Pass}></TextInput>
                 </View>
                 
             </View>
